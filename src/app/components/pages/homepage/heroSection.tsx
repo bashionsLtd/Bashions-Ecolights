@@ -36,7 +36,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div className="relative h-[calc(100vh-86px)] w-full overflow-hidden">
+    <div className="relative mt-22 h-[calc(100vh-86px)] w-full overflow-hidden">
       {/* Background image */}
       <Image
         src={slides[currentSlide].image}

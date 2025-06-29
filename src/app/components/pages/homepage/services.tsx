@@ -119,7 +119,7 @@ const ServicesSection: React.FC = () => {
               key={service.id}
               className="bg-[#f7f7f7] p-5 rounded-lg hover:shadow-md transition-shadow"
             >
-              <div className="relative mb-4 h-64 w-full rounded-md overflow-hidden">
+              <div className="relative mb-4 h-74 w-full rounded-md overflow-hidden">
                 <Image
                   src={service.image}
                   alt={service.title}
@@ -137,7 +137,7 @@ const ServicesSection: React.FC = () => {
               <p className="text-gray-600 text-sm mb-4">
                 {service.description}
               </p>
-              <div className="bg-[#1521a1] hover:bg-[#353d44] mt-4 py-[7px] text-center">
+              <div className="bg-[#121121] hover:bg-[#353d44] mt-4 py-[7px] text-center">
                 <a
                   href={service.readMoreLink}
                   className="text-white font-semibold hover:text-gray-200 italic justify-center flex gap-1 items-center"

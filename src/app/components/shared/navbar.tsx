@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleCart } from '@/redux/store/slices/cartSlice';
+import { RootState } from '@/redux/store/store';
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -17,9 +20,14 @@ const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const dispatch = useDispatch();
+
+  const cartCount = useSelector((state: RootState) =>
+    state.cart.items.reduce((total, item) => total + item.quantity, 0)
+  );
 
   return (
-    <nav className="w-full bg-white bg-opacity-90 px-4 shadow-md">
+    <nav className="fixed top-0 left-0 w-full bg-white bg-opacity-90 px-4 shadow-md z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <Link href="/">
           <Image src="/images/logo.png" alt="Logo" width={90} height={90} />
@@ -31,8 +39,8 @@ const Navbar = () => {
             <li key={path}>
               <Link
                 href={path}
-                className={`transition hover:text-[#1521a1] ${
-                  pathname === path ? 'text-[#1521a1] font-semibold' : ''
+                className={`transition hover:text-orange-400 text-lg hover:text-xl ${
+                  pathname === path ? 'text-orange-400 font-semibold' : ''
                 }`}
               >
                 {label}
@@ -58,9 +66,17 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Cart Icon */}
-          <div className="group relative cursor-pointer hidden sm:block">
+          {/* Cart Icon with Count */}
+          <div
+            onClick={() => dispatch(toggleCart())}
+            className="group relative cursor-pointer hidden sm:block"
+          >
             <FaShoppingCart className="text-gray-700 hover:text-black transition" />
+            {cartCount > 0 && (
+              <span className="absolute -top-4 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {cartCount}
+              </span>
+            )}
             <span className="absolute left-1/2 -translate-x-1/2 mt-1 text-xs text-gray-600 opacity-0 group-hover:opacity-100 transition">
               Cart
             </span>
@@ -101,7 +117,14 @@ const Navbar = () => {
           ))}
           <li className="flex justify-center gap-6 mt-4 text-lg">
             <FaUser title="Login" />
-            <FaShoppingCart title="Cart" />
+            <div className="relative">
+              <FaShoppingCart title="Cart" onClick={() => dispatch(toggleCart())} />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {cartCount}
+                </span>
+              )}
+            </div>
           </li>
           <li>
             <div className="relative mt-4 w-3/4 mx-auto">
