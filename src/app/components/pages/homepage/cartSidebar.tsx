@@ -73,7 +73,7 @@ const CartSidebar = () => {
             className="w-full py-2 text-white bg-gray-800 hover:bg-gray-700 rounded transition"
             onClick={() => alert('Proceed to checkout')}
           >
-            Checkout
+            Place An Order
           </button>
         </div>
       </div>
