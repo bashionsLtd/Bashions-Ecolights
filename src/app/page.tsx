@@ -3,7 +3,7 @@ import AboutOurServices from "./components/pages/homepage/aboutOurServices";
 import HeroSection from "./components/pages/homepage/heroSection";
 import Reviews from "./components/pages/homepage/reviews";
 import ServicesSection from "./components/pages/homepage/services";
-import TeamSection from "./components/pages/homepage/teams";
+import FaqSection from "./components/pages/homepage/faq";
 import {TrendingProducts} from "./components/pages/homepage/trending";
 import Info from "./components/pages/homepage/info";
 export default function Home() {
@@ -14,8 +14,8 @@ export default function Home() {
       <AboutOurServices />
       <TrendingProducts />
       <Reviews />
+      <FaqSection />
       <Info />
-      <TeamSection />
     </>
   );
 }

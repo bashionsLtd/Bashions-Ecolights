@@ -13,7 +13,7 @@ const Footer = () => {
             {/* Column 1 */}
             <div>
                 <h4 className="text-black mb-4 font-semibold">Company</h4>
-                <ul className="space-y-3 italic">
+                <ul className="space-y-3">
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About</a></li>
                     <li><a href="#">FAQ</a></li>
@@ -24,7 +24,7 @@ const Footer = () => {
             {/* Column 2 */}
             <div>
                 <h4 className="text-black mb-4 font-semibold">Products</h4>
-                <ul className="space-y-3 italic">
+                <ul className="space-y-3">
                     <li><a href="#">Lighting</a></li>
                     <li><a href="#">Lamps</a></li>
                     <li><a href="#">Arts & Decolations</a></li>
@@ -35,22 +35,22 @@ const Footer = () => {
             {/* Column 3 */}
             <div>
                 <h4 className="text-black mb-4 font-semibold">Resources</h4>
-                <ul className="space-y-3 italic">
+                <ul className="space-y-3">
                     <li><a href="#">Past Projects</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
                     <li><a href="#">Blog</a></li>
                     <li><a href="#">Crafting process</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
                 </ul>
             </div>
 
             {/* Column 4 */}
             <div>
                 <h4 className="text-black mb-4 font-semibold">Address & Contacts</h4>
-                <ul className="space-y-3 italic">
-                    <li><a href="#">Customer Support</a></li>
-                    <li><a href="#">Delivery Details</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                <ul className="space-y-3">
+                    <li>8724+V8X, Rue Industrie,</li>
+                    <li>Gisenyi/Rubavu, Rwanda</li>
+                    <li>+250784531278</li>
+                    <li>Patri@gmail.com</li>
                 </ul>
             </div>
         </div>

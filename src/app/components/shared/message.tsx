@@ -12,21 +12,21 @@ const Message = () => {
             <input
               type="text"
               placeholder="Name"
-              className="w-full px-4 py-3 bg-transparent border border-gray-600 rounded-full focus:outline-none focus:border-teal-400 placeholder:text-gray-500"
+              className="w-full px-4 py-3 bg-transparent border border-gray-400 rounded-full focus:outline-none focus:border-teal-400 placeholder:text-gray-400"
             />
             <input
               type="email"
               placeholder="Email"
-              className="w-full px-4 py-3 bg-transparent border border-gray-600 rounded-full focus:outline-none focus:border-teal-400 placeholder:text-gray-500"
+              className="w-full px-4 py-3 bg-transparent border border-gray-400 rounded-full focus:outline-none focus:border-teal-400 placeholder:text-gray-400"
             />
             <input
               type="tel"
               placeholder="Phone number"
-              className="w-full px-4 py-3 bg-transparent border border-gray-600 rounded-full focus:outline-none focus:border-teal-400 placeholder:text-gray-500"
+              className="w-full px-4 py-3 bg-transparent border border-gray-400 rounded-full focus:outline-none focus:border-teal-400 placeholder:text-gray-400"
             />
             <textarea
               placeholder="Comment"
-              className="w-full px-4 py-3 bg-transparent border border-gray-600 rounded-xl focus:outline-none focus:border-teal-400 placeholder:text-gray-500 h-24 resize-none"
+              className="w-full px-4 py-3 bg-transparent border border-gray-400 rounded-xl focus:outline-none focus:border-teal-400 placeholder:text-gray-400 h-24 resize-none"
             />
             {/* <label className="flex items-center text-sm text-gray-400 gap-2">
               <input type="checkbox" className="accent-teal-400" />

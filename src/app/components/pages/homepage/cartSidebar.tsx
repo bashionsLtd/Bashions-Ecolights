@@ -70,10 +70,10 @@ const CartSidebar = () => {
             <span className="font-semibold">${total.toFixed(2)}</span>
           </div>
           <button
-            className="w-full py-2 text-white bg-gray-800 hover:bg-gray-700 rounded transition"
+            className="w-full py-2 text-white bg-rose-300 hover:bg-rose-500 rounded transition"
             onClick={() => alert('Proceed to checkout')}
           >
-            Place An Order
+            Place Order Now
           </button>
         </div>
       </div>

@@ -104,7 +104,7 @@ const ServicesSection: React.FC = () => {
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="text-center mb-10">
-        <h2 className="text-2xl md:text-3xl font-bold tracking-wide relative inline-block">
+        <h2 className="text-4xl md:text-5xl font-bold relative inline-block">
           <span className="before:absolute before:top-1/2 before:-left-10 before:w-8 before:h-[1px] before:bg-black after:absolute after:top-1/2 after:-right-10 after:w-8 after:h-[1px] after:bg-black">
             SERVICES
           </span>
@@ -128,13 +128,13 @@ const ServicesSection: React.FC = () => {
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
-              <div className="flex items-center mb-3">
+              <div className="flex items-center mb-5">
                 <span className="mr-3 text-xl">{service.icon}</span>
-                <h3 className="text-xl italic font-semibold text-black">
+                <h3 className="text-xl font-semibold text-black">
                   {service.title}
                 </h3>
               </div>
-              <p className="text-gray-600 text-sm mb-4">
+              <p className="text-gray-600 text-sm mb-8">
                 {service.description}
               </p>
               <div className="bg-[#121121] hover:bg-[#353d44] mt-4 py-[7px] text-center">

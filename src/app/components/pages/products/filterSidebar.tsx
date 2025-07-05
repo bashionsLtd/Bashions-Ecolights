@@ -2,9 +2,9 @@
 
 const FilterSidebar = () => {
   return (
-    <aside className="w-full md:w-64 p-6 space-y-6">
+    <aside className="w-full bg-gradient-to-bl from-slate-700 via-slate-950 to-slate-800 md:w-64 p-6 space-y-12 text-white pt-30">
       <div className="border-b-2 border-gray-400 flex flex-col gap-4" >
-        <h3 className="font-semibold mb-2">Categories</h3>
+        <h3 className="font-bold text-2xl mb-2">Categories</h3>
         <div className="flex items-center space-x-2">
           <input type="checkbox" id="lamps" />
           <label htmlFor="in-stock">Lamps</label>
@@ -28,7 +28,7 @@ const FilterSidebar = () => {
       </div>
 
       <div className="border-b-2 border-gray-400 flex flex-col gap-4" >
-        <h3 className="font-semibold mb-2">Availability</h3>
+        <h3 className="font-bold text-2xl mb-2">Availability</h3>
         <div className="flex items-center space-x-2">
           <input type="checkbox" id="in-stock" />
           <label htmlFor="in-stock">In stock</label>
@@ -42,7 +42,7 @@ const FilterSidebar = () => {
       </div>
 
       <div className="flex flex-col gap-4">
-        <h3 className="font-semibold mb-2">Price</h3>
+        <h3 className="font-bold text-2xl mb-2">Price</h3>
         <div className="flex gap-2 items-center mb-4">
           <input type="number" placeholder="$0" className="border w-20 px-2 py-1 text-sm" />
           <span>to</span>

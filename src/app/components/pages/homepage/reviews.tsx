@@ -80,9 +80,9 @@ const Reviews = () => {
   if (slides.length === 0) return null;
 
   return (
-    <section className="bg-gradient-to-bl from-[#000d1c] via-[#211f18] to-[#001515] text-center py-20 px-4">
+    <section className="bg-gradient-to-bl from-slate-700 via-slate-950 to-slate-800 text-center py-20 px-4">
      <div className="text-center mb-20">
-        <h2 className="text-2xl md:text-3xl font-bold tracking-wide relative inline-block">
+        <h2 className="text-4xl md:text-5xl font-bold relative inline-block">
           <span className="text-white before:absolute before:top-1/2 before:-left-10 before:w-8 before:h-[1px] before:bg-white after:absolute after:top-1/2 after:-right-10 after:w-8 after:h-[1px] after:bg-white">
             REVIEWS
           </span>

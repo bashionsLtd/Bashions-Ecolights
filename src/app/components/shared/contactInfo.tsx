@@ -20,7 +20,7 @@ const contactInfo: ContactItem[] = [
     lines: ['info@yourdomain.com', 'sales@yourdomain.com'],
   },
   {
-    icon: <FaPhoneAlt className="text-2xl text-orange-500" />,
+    icon: <FaPhoneAlt className="text-xl text-orange-500" />,
     title: 'Call us directly',
     lines: ['1-800–222–000', '1-800–222–002'],
   },

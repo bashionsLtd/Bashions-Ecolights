@@ -47,7 +47,7 @@ const HeroSection = () => {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black opacity-50 z-10" />
+      <div className="absolute inset-0 bg-black opacity-30 z-10" />
 
       {/* Content */}
       <div className="relative max-w-6xl z-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white px-4">
