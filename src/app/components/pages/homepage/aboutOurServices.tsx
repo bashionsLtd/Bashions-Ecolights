@@ -1,3 +1,4 @@
+// AboutOurServices.tsx
 'use client'
 
 import { useState } from 'react'
@@ -50,7 +51,7 @@ const steps: Step[] = [
 ]
 
 const AboutOurServices: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(0) // Open step 4 by default
+  const [activeIndex, setActiveIndex] = useState<number | null>(0)
 
   const toggleStep = (index: number) => {
     setActiveIndex((prev) => (prev === index ? null : index))
@@ -58,19 +59,22 @@ const AboutOurServices: React.FC = () => {
 
   return (
     <section className="bg-gradient-to-bl from-slate-700 via-slate-950 to-slate-800 text-white py-20 px-6 md:px-12">
-      <div className="text-center mb-20">
+      <div className="text-center mb-20 px-4">
         <h2 className="text-4xl md:text-5xl font-bold relative inline-block">
           <span className="text-white before:absolute before:top-1/2 before:-left-10 before:w-8 before:h-[1px] before:bg-white after:absolute after:top-1/2 after:-right-10 after:w-8 after:h-[1px] after:bg-white">
             How Does It Work?
           </span>
         </h2>
-        <p className="text-gray-400 italic mt-2">Below are step by step procedure on how you can render our services</p>
+        <p className="text-gray-400 italic mt-2">
+          Below are step by step procedures on how you can render our services
+        </p>
       </div>
+
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         {/* Left Image */}
-        <div className="relative rounded-xl w-full h-72 sm:h-96 md:h-[500px] lg:h-[658px] hidden lg:block">
+        <div className="relative rounded-xl w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[658px]">
           <Image
-            src="/images/eco.jpg" // Replace with your image path
+            src="/images/eco.jpg"
             alt="Tattoo machine"
             fill
             className="object-cover rounded-md"
