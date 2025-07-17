@@ -5,12 +5,19 @@ import { RootState } from '@/redux/store/store';
 import { toggleCart, removeItem, addItem } from '@/redux/store/slices/cartSlice';
 import Image from 'next/image';
 import { FaTimes } from 'react-icons/fa';
+import { useRouter } from 'next/navigation'; // ⬅️ import router
 
 const CartSidebar = () => {
   const dispatch = useDispatch();
+  const router = useRouter(); // ⬅️ get router instance
   const { items, isOpen } = useSelector((state: RootState) => state.cart);
 
   const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  const handlePlaceOrder = () => {
+    dispatch(toggleCart());     // optional: close cart
+    router.push('/order');   // ⬅️ navigate to checkout page
+  };
 
   return (
     <>
@@ -71,7 +78,7 @@ const CartSidebar = () => {
           </div>
           <button
             className="w-full py-2 text-white bg-rose-300 hover:bg-rose-500 rounded transition"
-            onClick={() => alert('Proceed to checkout')}
+            onClick={handlePlaceOrder} // ⬅️ call the navigation handler
           >
             Place Order Now
           </button>
