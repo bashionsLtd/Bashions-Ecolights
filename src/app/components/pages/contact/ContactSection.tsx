@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import ContactInfo from '../../shared/contactInfo';
 import Message from '../../shared/message';

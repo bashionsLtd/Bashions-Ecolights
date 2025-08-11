@@ -8,25 +8,21 @@ export const TrendingProducts = () => {
       price: 30,
       description: 'BASHIONS aims to create sustainable, accessible interior designs that enhance comfort and reduce environmental impact, featuring innovative eco-friendly wooden lamps for all',
       images: ['/images/sofa.jpeg', '/images/better.jpg'],
-      badge: { text: 'New', color: 'bg-green-600' },
-      rating: 4
+      badge: { text: 'New', color: 'bg-green-600' }
     },
     {
       category: 'Wooden Lamps',
       name: 'Ridley High Waist',
       price: 36,
       description: 'mnhyfrsedxdfghgjhgh',
-      images: ['/images/art.jpeg', '/images/art2.jpeg'],
-      outOfStock: true,
-      rating: 5
+      images: ['/images/art.jpeg', '/images/art2.jpeg']
     },
     {
       category: 'Wooden Lamps',
       name: 'Blush Beanie',
       price: 15,
       description: 'mnhyfrsedxdfghgjhgh',
-      images: ['/images/bulb.jpeg', '/images/blb2.jpg'],
-      rating: 3
+      images: ['/images/bulb.jpeg', '/images/blb2.jpg']
     },
     {
       category: 'Wooden Lamps',
@@ -36,7 +32,6 @@ export const TrendingProducts = () => {
       description: 'mnhyfrsedxdfghgjhgh',
       images: ['/images/blb.jpg', '/images/bb2.jpg'],
       badge: { text: '-25%', color: 'bg-orange-500' },
-      rating: 1
     },
   ];
 

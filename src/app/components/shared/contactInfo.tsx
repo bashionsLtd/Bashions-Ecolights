@@ -1,5 +1,4 @@
 // ContactInfo.tsx
-'use client'
 
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaUsers } from 'react-icons/fa'
 import React from 'react'
@@ -12,12 +11,12 @@ type ContactItem = {
 
 const contactInfo: ContactItem[] = [
   {
-    icon: <FaMapMarkerAlt className="text-2xl text-orange-500" />,
+    icon: <FaMapMarkerAlt className="text-xl text-orange-500" />,
     title: 'Office location',
     lines: ['16122 Collins Street,', 'Melbourne, Australia'],
   },
   {
-    icon: <FaEnvelope className="text-2xl text-orange-500" />,
+    icon: <FaEnvelope className="text-xl text-orange-500" />,
     title: 'Send a message',
     lines: ['info@yourdomain.com', 'sales@yourdomain.com'],
   },
@@ -27,7 +26,7 @@ const contactInfo: ContactItem[] = [
     lines: ['1-800–222–000', '1-800–222–002'],
   },
   {
-    icon: <FaUsers className="text-2xl text-orange-500" />,
+    icon: <FaUsers className="text-xl text-orange-500" />,
     title: 'Find us on social media',
     lines: ['hire@yourdomain.com', 'hr@yourdomain.com'],
   },
