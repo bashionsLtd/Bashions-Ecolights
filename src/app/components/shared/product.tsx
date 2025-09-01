@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
 import { addItem, toggleCart } from '@/redux/store/slices/cartSlice';
 import { HiPlus, HiMinus } from 'react-icons/hi';
+import { useRouter } from 'next/navigation';
 
 interface ProductCardProps {
+  id: string;
   category: string;
   name: string;
   price: number;
@@ -21,6 +23,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
+  id,
   category,
   name,
   price,
@@ -30,6 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   badge,
 }) => {
   const dispatch = useDispatch();
+  const router= useRouter();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const cartItem = cartItems.find((item) => item.name === name);
 
@@ -47,9 +51,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
   }, [cartItem]);
 
   const handleAddToCart = () => {
-    dispatch(addItem({ name, price: salePrice || price, image: mainImage, quantity }));
+    dispatch(addItem({id,  name, price: salePrice || price, image: mainImage, quantity }));
     dispatch(toggleCart());
+    setShowQuickView(false)
   };
+  const handlePlaceOrder = () => {
+    dispatch(addItem({
+      id,
+      name,
+      price: salePrice || price,
+      image: mainImage,
+      quantity,
+    }));
+    setShowQuickView(false);
+    router.push('/order');
+  };
+
 
   return (
     <>
@@ -113,14 +130,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {salePrice ? (
             <>
               <span className="text-gray-500 line-through mr-2">
-                ${price.toFixed(2)}
+                Rwf {price.toFixed(2)}
               </span>
               <span className="text-red-500 font-semibold">
-                ${salePrice.toFixed(2)}
+                Rwf {salePrice.toFixed(2)}
               </span>
             </>
           ) : (
-            <span className="text-gray-800">${price.toFixed(2)}</span>
+            <span className="text-gray-800">Rwf {price.toFixed(2)}</span>
           )}
         </div>
       </div>
@@ -216,8 +233,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <button
                   disabled={!agreed}
                   className={`mt-5 w-full py-3 rounded-full text-lg font-medium transition ${
-                    agreed ? 'bg-rose-500 text-white' : 'bg-rose-300 text-white cursor-not-allowed'
+                    agreed ? 'bg-orange-500 text-white' : 'bg-orange-200 text-white cursor-not-allowed'
                   }`}
+                  onClick={handlePlaceOrder}
                 >
                   Place Order Now
                 </button>

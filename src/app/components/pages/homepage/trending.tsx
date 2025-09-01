@@ -1,39 +1,14 @@
+"use client";
+
 import ProductCard from "../../shared/product";
+import { useProducts } from "../../../hooks/useProducts";
 
 export const TrendingProducts = () => {
-  const products = [
-    {
-      category: 'Wooden Lamps',
-      name: 'Analogue Resin Strap',
-      price: 30,
-      description: 'BASHIONS aims to create sustainable, accessible interior designs that enhance comfort and reduce environmental impact, featuring innovative eco-friendly wooden lamps for all',
-      images: ['/images/sofa.jpeg', '/images/better.jpg'],
-      badge: { text: 'New', color: 'bg-green-600' }
-    },
-    {
-      category: 'Wooden Lamps',
-      name: 'Ridley High Waist',
-      price: 36,
-      description: 'mnhyfrsedxdfghgjhgh',
-      images: ['/images/art.jpeg', '/images/art2.jpeg']
-    },
-    {
-      category: 'Wooden Lamps',
-      name: 'Blush Beanie',
-      price: 15,
-      description: 'mnhyfrsedxdfghgjhgh',
-      images: ['/images/bulb.jpeg', '/images/blb2.jpg']
-    },
-    {
-      category: 'Wooden Lamps',
-      name: 'Cluse La Boheme Rose Gold',
-      price: 60,
-      salePrice: 45,
-      description: 'mnhyfrsedxdfghgjhgh',
-      images: ['/images/blb.jpg', '/images/bb2.jpg'],
-      badge: { text: '-25%', color: 'bg-orange-500' },
-    },
-  ];
+  const { products, isLoading, isError } = useProducts("/admin/api/products");
+  const limitedProducts = products.slice(0, 4);
+
+  if (isLoading) return <section className="px-4 py-16">Loading…</section>;
+  if (isError) return <section className="px-4 py-16 text-red-600">Failed to load trending</section>;
 
   return (
     <section className="px-4 py-16">
@@ -47,7 +22,7 @@ export const TrendingProducts = () => {
       </div>
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-        {products.map((product, idx) => (
+        {limitedProducts.map((product, idx) => (
           <ProductCard key={idx} {...product} />
         ))}
       </div>

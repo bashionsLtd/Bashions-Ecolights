@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, BarChart2, List, LogOut } from "lucide-react";
+import { Home, BarChart2, LogOut, Mail } from "lucide-react"; // 👈 removed List
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -16,8 +16,9 @@ interface NavItemProps {
 }
 
 const NavItem = ({ icon, label, href, isLogout = false, active = false, onClick }: NavItemProps) => {
-  const baseClasses = "flex items-center gap-3 w-full text-left px-3 py-2 rounded-lg transition-colors";
-  const activeClasses = "bg-gray-200 text-orange-600 font-medium";
+  const baseClasses =
+    "flex items-center gap-3 w-full text-left px-3 py-2 rounded-lg transition-colors";
+  const activeClasses = "bg-gray-200 text-orange-500 font-medium";
   const inactiveClasses = "text-slate-600 hover:bg-slate-100";
 
   const content = (
@@ -56,11 +57,11 @@ const NavItem = ({ icon, label, href, isLogout = false, active = false, onClick 
 export default function Sidebar() {
   const pathname = usePathname();
 
-  // Define nav items
+  // ✅ Orders removed from here
   const navItems = [
     { icon: <Home size={18} />, label: "Home", href: "/admin" },
     { icon: <BarChart2 size={18} />, label: "Products", href: "/admin/products" },
-    { icon: <List size={18} />, label: "Orders", href: "/admin/orders" },
+    { icon: <Mail size={18} />, label: "Messages", href: "/admin/messages" },
   ];
 
   return (
