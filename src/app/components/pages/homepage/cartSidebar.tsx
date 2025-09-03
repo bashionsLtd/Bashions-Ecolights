@@ -2,21 +2,21 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
-import { toggleCart, removeItem, addItem } from '@/redux/store/slices/cartSlice';
+import { toggleCart, removeItem, decreaseQuantity, addItem, clearCart } from '@/redux/store/slices/cartSlice';
 import Image from 'next/image';
 import { FaTimes } from 'react-icons/fa';
-import { useRouter } from 'next/navigation'; // ⬅️ import router
+import { useRouter } from 'next/navigation';
 
 const CartSidebar = () => {
   const dispatch = useDispatch();
-  const router = useRouter(); // ⬅️ get router instance
+  const router = useRouter();
   const { items, isOpen } = useSelector((state: RootState) => state.cart);
 
   const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   const handlePlaceOrder = () => {
-    dispatch(toggleCart());     // optional: close cart
-    router.push('/order');   // ⬅️ navigate to checkout page
+    dispatch(toggleCart());
+    router.push('/order');
   };
 
   return (
@@ -24,7 +24,7 @@ const CartSidebar = () => {
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40"
+          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
           onClick={() => dispatch(toggleCart())}
         />
       )}
@@ -54,16 +54,25 @@ const CartSidebar = () => {
                   <h4 className="font-medium text-sm">{item.name}</h4>
                   <p className="text-xs text-gray-500">${item.price.toFixed(2)}</p>
                   <div className="flex items-center gap-2 mt-2">
-                    <button onClick={() => dispatch(removeItem(item.name))} className="px-2 py-1 border rounded">
+                    <button
+                      className="px-2 py-1 bg-gray-200 rounded-l"
+                      onClick={() => dispatch(decreaseQuantity(item.name))}
+                    >
                       -
                     </button>
                     <span>{item.quantity}</span>
-                    <button onClick={() => dispatch(addItem(item))} className="px-2 py-1 border rounded">
+                    <button
+                      onClick={() => dispatch(addItem(item))}
+                      className="px-2 py-1 border rounded"
+                    >
                       +
                     </button>
                   </div>
                 </div>
-                <button onClick={() => dispatch(removeItem(item.name))} className="text-sm text-red-500">
+                <button
+                  onClick={() => dispatch(removeItem(item.name))}
+                  className="text-sm text-red-500"
+                >
                   Remove
                 </button>
               </div>
@@ -76,12 +85,21 @@ const CartSidebar = () => {
             <span className="text-sm">Subtotal:</span>
             <span className="font-semibold">${total.toFixed(2)}</span>
           </div>
-          <button
-            className="w-full py-2 text-white bg-rose-300 hover:bg-rose-500 rounded transition"
-            onClick={handlePlaceOrder} // ⬅️ call the navigation handler
-          >
-            Place Order Now
-          </button>
+
+          <div className="flex gap-2">
+            <button
+              className="flex-1 py-2 text-white bg-orange-500 hover:bg-orange-600 rounded transition"
+              onClick={handlePlaceOrder}
+            >
+              Place Order Now
+            </button>
+            <button
+              className="flex-1 py-2 text-gray-700 border rounded hover:bg-gray-100 transition"
+              onClick={() => dispatch(clearCart())}
+            >
+              Clear Cart
+            </button>
+          </div>
         </div>
       </div>
     </>

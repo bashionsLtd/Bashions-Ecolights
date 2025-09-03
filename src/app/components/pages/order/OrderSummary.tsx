@@ -1,13 +1,17 @@
 'use client';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/redux/store/store';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useCreateOrder } from '../../../hooks/useCreateOrder';
+import { clearCart } from '@/redux/store/slices/cartSlice';
+import { OrderPayload } from '@/app/admin/types/order';
+import { toast } from 'sonner';
 
 const OrderSummaryPage = () => {
   const { items } = useSelector((state: RootState) => state.cart);
-  const router = useRouter();
+  const dispatch = useDispatch();
+  const { mutate: createOrder, isPending, isError, error } = useCreateOrder();
 
   const [form, setForm] = useState({
     name: '',
@@ -18,92 +22,81 @@ const OrderSummaryPage = () => {
     email: '',
   });
 
-  const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const delivery = 3.99;
-  const total = subtotal + delivery;
+  const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = () => {
+    if (items.length === 0) {
+      toast.error('⚠️ Cart is empty');
+      return false;
+    }
+    if (!form.name || !form.surname || !form.city || !form.phone || !form.email) {
+      toast.error('⚠️ Please fill in all required fields');
+      return false;
+    }
+    const phoneRegex = /^[0-9]{8,15}$/;
+    if (!phoneRegex.test(form.phone)) {
+      toast.error('⚠️ Invalid phone number');
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      toast.error('⚠️ Invalid email address');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = () => {
-    // TODO: Add form validation or submission logic
-    console.log('Placing order for:', form);
-    alert('Order placed!');
-    router.push('/thank-you'); // Optional redirection
+    if (!validateForm()) return;
+
+    const payload = {
+      ...form,
+      total,
+      items: items.map((item) => ({
+        product_id: item.id,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+    };
+
+    createOrder(payload, {
+      onSuccess: () => {
+        dispatch(clearCart());
+        toast.success('✅ Order placed successfully!');
+      },
+      onError: (err) => {
+        toast.error(`❌ ${(err as Error).message}`);
+      },
+    });
   };
 
   return (
-    <div className="min-h-screen mt-22 bg-gray-100 p-6">
+    <div className="min-h-screen w-11/12 mt-22 bg-gray-100 p-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left: Basic Information Form */}
         <div className="lg:col-span-2 bg-white p-6 rounded shadow">
           <h2 className="text-xl font-semibold flex items-center gap-2 mb-4">
-            <span className="text-yellow-600 text-2xl">👤</span> Basic Information
+            <span className="text-orange-500 text-2xl">👤</span> Basic Information
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm">Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleInput}
-                className="w-full mt-1 border p-2 rounded"
-              />
-            </div>
-            <div>
-              <label className="text-sm">Surname:</label>
-              <input
-                type="text"
-                name="surname"
-                value={form.surname}
-                onChange={handleInput}
-                className="w-full mt-1 border p-2 rounded"
-              />
-            </div>
-            <div>
-              <label className="text-sm">Street and number:</label>
-              <input
-                type="text"
-                name="street"
-                value={form.street}
-                onChange={handleInput}
-                className="w-full mt-1 border p-2 rounded"
-              />
-            </div>
-            <div>
-              <label className="text-sm">City:</label>
-              <input
-                type="text"
-                name="city"
-                value={form.city}
-                onChange={handleInput}
-                className="w-full mt-1 border p-2 rounded"
-              />
-            </div>
-            <div>
-              <label className="text-sm">Phone number:</label>
-              <input
-                type="tel"
-                name="phone"
-                value={form.phone}
-                onChange={handleInput}
-                className="w-full mt-1 border p-2 rounded"
-              />
-            </div>
-            <div>
-              <label className="text-sm">E-mail address:</label>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleInput}
-                className="w-full mt-1 border p-2 rounded"
-              />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {(['name','surname','street','city','phone','email'] as const).map((field) => (
+              <div key={field}>
+                <label className="text-sm capitalize">{field}:</label>
+                <input
+                  type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
+                  name={field}
+                  value={(form as OrderPayload)[field]}
+                  onChange={handleInput}
+                  className="w-full mt-1 border p-2 rounded"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -130,18 +123,6 @@ const OrderSummaryPage = () => {
               ))
             )}
           </div>
-
-          <div className="border-t mt-4 pt-4 space-y-2 text-sm">
-            <div className="flex justify-between text-gray-500">
-              <span>Order total:</span>
-              <span className="text-gray-800 font-semibold">${subtotal.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-gray-500">
-              <span>Delivery:</span>
-              <span className="text-gray-800 font-semibold">${delivery.toFixed(2)}</span>
-            </div>
-          </div>
-
           <div className="mt-4 border-t pt-4 flex justify-between items-center text-xl font-semibold">
             <span>Total:</span>
             <span className="text-black">${total.toFixed(2)}</span>
@@ -149,10 +130,13 @@ const OrderSummaryPage = () => {
 
           <button
             onClick={handleSubmit}
-            className="mt-6 w-full py-2 text-white bg-yellow-500 hover:bg-yellow-600 rounded transition"
+            disabled={isPending}
+            className="mt-6 w-full py-2 text-white bg-orange-500 hover:bg-orange-500 rounded transition"
           >
-            Confirm Order
+            {isPending ? 'Placing Order...' : 'Confirm Order'}
           </button>
+
+          {isError && <p className="text-red-600 mt-2">Error: {String(error?.message)}</p>}
         </div>
       </div>
     </div>

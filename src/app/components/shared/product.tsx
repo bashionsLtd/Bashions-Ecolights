@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
 import { addItem, toggleCart } from '@/redux/store/slices/cartSlice';
 import { HiPlus, HiMinus } from 'react-icons/hi';
-import { FaStar, FaRegStar } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 
 interface ProductCardProps {
+  id: string;
   category: string;
   name: string;
   price: number;
@@ -19,11 +20,10 @@ interface ProductCardProps {
     text: string;
     color: string;
   };
-  outOfStock?: boolean;
-  rating?: number;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
+  id,
   category,
   name,
   price,
@@ -31,10 +31,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   images,
   description,
   badge,
-  outOfStock,
-  rating = 4,
 }) => {
   const dispatch = useDispatch();
+  const router= useRouter();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const cartItem = cartItems.find((item) => item.name === name);
 
@@ -46,15 +45,28 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const mainImage = images[currentImageIdx] || '/placeholder.jpg';
 
   useEffect(() => {
-    if (!cartItem && !outOfStock) {
+    if (!cartItem) {
       setQuantity(1);
     }
-  }, [cartItem, outOfStock]);
+  }, [cartItem]);
 
   const handleAddToCart = () => {
-    dispatch(addItem({ name, price: salePrice || price, image: mainImage, quantity }));
+    dispatch(addItem({id,  name, price: salePrice || price, image: mainImage, quantity }));
     dispatch(toggleCart());
+    setShowQuickView(false)
   };
+  const handlePlaceOrder = () => {
+    dispatch(addItem({
+      id,
+      name,
+      price: salePrice || price,
+      image: mainImage,
+      quantity,
+    }));
+    setShowQuickView(false);
+    router.push('/order');
+  };
+
 
   return (
     <>
@@ -75,11 +87,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
               {badge.text}
             </span>
           )}
-          {outOfStock && (
-            <span className="absolute top-4 left-4 bg-orange-500 text-white text-xs px-3 py-1 rounded">
-              Out of Stock
-            </span>
-          )}
 
           <div className="absolute inset-0 flex flex-col justify-center items-center gap-2 opacity-0 group-hover:opacity-100 transition">
             <button
@@ -93,54 +100,44 @@ const ProductCard: React.FC<ProductCardProps> = ({
               Quick view
             </button>
 
-            {!outOfStock && (
-              <div className="flex items-center rounded-full overflow-hidden shadow-md bg-white">
-                <button
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="text-black cursor-pointer px-3 py-2"
-                >
-                  <HiMinus />
-                </button>
-                <span className="px-4 py-2">{quantity}</span>
-                <button
-                  onClick={() => setQuantity((q) => q + 1)}
-                  className="text-black cursor-pointer px-3 py-2"
-                >
-                  <HiPlus />
-                </button>
-                <button
-                  onClick={handleAddToCart}
-                  className="bg-sky-600 cursor-pointer text-white px-6 py-2 text-sm font-semibold"
-                >
-                  Add to cart
-                </button>
-              </div>
-            )}
+            <div className="flex items-center rounded-full overflow-hidden shadow-md bg-white">
+              <button
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                className="text-black cursor-pointer px-3 py-2"
+              >
+                <HiMinus />
+              </button>
+              <span className="px-4 py-2">{quantity}</span>
+              <button
+                onClick={() => setQuantity((q) => q + 1)}
+                className="text-black cursor-pointer px-3 py-2"
+              >
+                <HiPlus />
+              </button>
+              <button
+                onClick={handleAddToCart}
+                className="bg-sky-600 cursor-pointer text-white px-6 py-2 text-sm font-semibold"
+              >
+                Add to cart
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Rating */}
-        <div className="flex items-center mt-4 text-yellow-500 text-xs">
-          {Array.from({ length: 5 }).map((_, idx) =>
-            idx < rating ? <FaStar key={idx} /> : <FaRegStar key={idx} />
-          )}
-        </div>
-        
-        <h3 className="text-sm mt-1">{name}</h3>
-
+        <h3 className="text-sm mt-4">{name}</h3>
 
         <div className="mt-1 text-sm">
           {salePrice ? (
             <>
               <span className="text-gray-500 line-through mr-2">
-                ${price.toFixed(2)}
+                Rwf {price.toFixed(2)}
               </span>
               <span className="text-red-500 font-semibold">
-                ${salePrice.toFixed(2)}
+                Rwf {salePrice.toFixed(2)}
               </span>
             </>
           ) : (
-            <span className="text-gray-800">${price.toFixed(2)}</span>
+            <span className="text-gray-800">Rwf {price.toFixed(2)}</span>
           )}
         </div>
       </div>
@@ -174,30 +171,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
             {/* Info Section */}
             <div className="w-full md:w-1/2 flex flex-col justify-between p-6 relative">
-            <div>
+              <div>
+                <button
+                  className="absolute top-4 right-4 text-xl cursor-pointer"
+                  onClick={() => setShowQuickView(false)}
+                >
+                  ✕
+                </button>
 
-              <button
-                className="absolute top-4 right-4 text-xl cursor-pointer"
-                onClick={() => setShowQuickView(false)}
-              >
-                ✕
-              </button>
-
-              <p className="text-sm text-sky-600 font-medium">{category}</p>
-              <h2 className="text-2xl mt-3 font-semibold">{name}</h2>
-              <div className='mt-3 flex items-center justify-between pr-8'>  
-                <div className="text-xl font-bold">
-                  ${salePrice?.toFixed(2) || price.toFixed(2)}
-                </div>
-
-                <div className="flex items-center gap-1 text-yellow-500">
-                  {Array.from({ length: 5 }).map((_, idx) =>
-                    idx < rating ? <FaStar key={idx} /> : <FaRegStar key={idx} />
-                  )}
-                  <span className="ml-2 text-sm text-gray-500">1 Review</span>
+                <p className="text-sm text-sky-600 font-medium">{category}</p>
+                <h2 className="text-2xl mt-3 font-semibold">{name}</h2>
+                <div className="mt-3 flex items-center justify-between pr-8">
+                  <div className="text-xl font-bold">
+                    ${salePrice?.toFixed(2) || price.toFixed(2)}
+                  </div>
                 </div>
               </div>
-            </div>
 
               <p className="text-gray-600 text-sm">{description}</p>
 
@@ -244,8 +233,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <button
                   disabled={!agreed}
                   className={`mt-5 w-full py-3 rounded-full text-lg font-medium transition ${
-                    agreed ? 'bg-rose-500 text-white' : 'bg-rose-300 text-white cursor-not-allowed'
+                    agreed ? 'bg-orange-500 text-white' : 'bg-orange-200 text-white cursor-not-allowed'
                   }`}
+                  onClick={handlePlaceOrder}
                 >
                   Place Order Now
                 </button>

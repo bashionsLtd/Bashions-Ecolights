@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface CartItem {
+  id: string;
   name: string;
   price: number;
   quantity: number;
@@ -24,29 +25,37 @@ const cartSlice = createSlice({
     toggleCart: (state) => {
       state.isOpen = !state.isOpen;
     },
-    addItem: (state, action: PayloadAction<CartItem>) => {
-  const item = state.items.find(i => i.name === action.payload.name);
-  if (item) {
-    item.quantity = action.payload.quantity; // Update to match the local counter
-  } else {
-    state.items.push({ ...action.payload });
-  }
-},
+
+  addItem: (state, action: PayloadAction<CartItem>) => {
+    const item = state.items.find(i => i.name === action.payload.name);
+    if (item) {
+      item.quantity += 1; // ✅ use passed quantity
+    } else {
+      state.items.push({ ...action.payload });
+    }
+  },
+
+
     removeItem: (state, action: PayloadAction<string>) => {
-      const index = state.items.findIndex(i => i.name === action.payload);
-      if (index !== -1) {
-        if (state.items[index].quantity > 1) {
-          state.items[index].quantity--;
-        } else {
-          state.items.splice(index, 1);
+      // ✅ Completely remove the product, no decrement
+      state.items = state.items.filter(i => i.name !== action.payload);
+    },
+
+    decreaseQuantity: (state, action: PayloadAction<string>) => {
+      const item = state.items.find(i => i.name === action.payload);
+      if (item) {
+        item.quantity -= 1;
+        if (item.quantity <= 0) {
+          state.items = state.items.filter(i => i.name !== action.payload);
         }
       }
     },
+
     clearCart: (state) => {
       state.items = [];
     },
   },
 });
 
-export const { toggleCart, addItem, removeItem, clearCart } = cartSlice.actions;
+export const { toggleCart, addItem, removeItem, clearCart, decreaseQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

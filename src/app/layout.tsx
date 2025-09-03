@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import ReactQueryProvider from "./ReactQueryProvider";
 import Navbar from "./components/shared/navbar";
 import Footer from "./components/shared/footer";
-import CartSidebar from "./components/pages/homepage/cartSidebar";
+import CartSidebar from "./components/CartSidebarWrapper";
 import { Providers } from "./providers/providers";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -24,12 +26,15 @@ export default function RootLayout({
         }}
       >
         <Providers>
-          <Navbar />
-          <CartSidebar />
-          <main className="relative">
-            {children}
-          </main>
-          <Footer />
+            <Navbar />
+            <CartSidebar />
+            <main className="relative">
+          <ReactQueryProvider>
+              {children}
+              <Toaster richColors position="top-right" /> 
+          </ReactQueryProvider>
+            </main>
+            <Footer />
         </Providers>
       </body>
     </html>
