@@ -2,17 +2,14 @@ import { NextResponse } from "next/server";
 import supabase from "../../../../lib/utils/supabase/supabaseClient";
 import type { Order } from "@/app/admin/types/order";
 
-type Params = {
-  params: {
-    id: string;
-  };
-};
-
 // ==============================
 // GET one order (with items)
 // ==============================
-export async function GET(req: Request, context: Params) {
-  const { id } = context.params;
+export async function GET(
+  _req: Request,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
 
   const { data, error } = await supabase
     .from("orders")
@@ -41,10 +38,13 @@ export async function GET(req: Request, context: Params) {
 // ==============================
 // UPDATE editable fields
 // ==============================
-export async function PUT(req: Request, context: Params) {
+export async function PUT(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { id } = context.params;
-    const body: { status?: string; paid?: boolean; payment_date?: string } =
+    const { id } = params;
+    const body: { status?: string; paid?: boolean; payment_date?: string | null } =
       await req.json();
 
     const { data, error } = await supabase
@@ -52,7 +52,7 @@ export async function PUT(req: Request, context: Params) {
       .update({
         ...(body.status && { status: body.status }),
         ...(body.paid !== undefined && { paid: body.paid }),
-        ...(body.payment_date && { payment_date: body.payment_date }),
+        ...(body.payment_date !== undefined && { payment_date: body.payment_date }),
       })
       .eq("id", id)
       .select()
@@ -71,9 +71,12 @@ export async function PUT(req: Request, context: Params) {
 // ==============================
 // DELETE an order
 // ==============================
-export async function DELETE(req: Request, context: Params) {
+export async function DELETE(
+  _req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { id } = context.params;
+    const { id } = params;
 
     const { error } = await supabase.from("orders").delete().eq("id", id);
 
