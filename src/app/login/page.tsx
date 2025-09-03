@@ -1,13 +1,14 @@
-import { login } from './actions'
+// src/app/login/page.tsx
+import { login } from "./actions";
 
-interface LoginPageProps {
-  searchParams?: {
-    message?: string
-  }
-}
+type LoginPageProps = {
+  // Next 15: searchParams is a Promise
+  searchParams?: Promise<{ message?: string }>;
+};
 
-export default function LoginPage({ searchParams }: LoginPageProps) {
-  const errorMessage = searchParams?.message
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const { message } = (await searchParams) ?? {};
+  const errorMessage = message;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -38,9 +39,10 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
               />
             </div>
 
-            {/* 👇 Error Message Displayed Here */}
             {errorMessage && (
-              <p className="text-sm text-red-600">{decodeURIComponent(errorMessage)}</p>
+              <p className="text-sm text-red-600">
+                {decodeURIComponent(errorMessage)}
+              </p>
             )}
 
             <button
@@ -58,5 +60,5 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
