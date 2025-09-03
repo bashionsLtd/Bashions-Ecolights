@@ -9,9 +9,9 @@ import type { Order } from "@/app/admin/types/order";
 // ==============================
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  const { id } = params;
+  const { id } = context.params;
 
   const { data, error } = await supabase
     .from("orders")
@@ -35,36 +35,6 @@ export async function GET(
   return NextResponse.json(data as Order);
 }
 
-// ==============================
-// UPDATE editable fields
-// ==============================
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const { id } = params;
-    const body: { status?: string; paid?: boolean; payment_date?: string } =
-      await req.json();
-
-    const { data, error } = await supabase
-      .from("orders")
-      .update({
-        ...(body.status && { status: body.status }),
-        ...(body.paid !== undefined && { paid: body.paid }),
-        ...(body.payment_date && { payment_date: body.payment_date }),
-      })
-      .eq("id", id)
-      .select()
-      .single();
-
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-    return NextResponse.json(data as Order);
-  } catch (err) {
-    return NextResponse.json({ err }, { status: 500 });
-  }
-}
 
 // ==============================
 // DELETE an order
