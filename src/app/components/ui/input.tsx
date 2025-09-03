@@ -1,7 +1,10 @@
 import React from "react";
 import clsx from "clsx";
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+/* eslint-enable @typescript-eslint/no-empty-object-type */
+
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
