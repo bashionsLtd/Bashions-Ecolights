@@ -8,7 +8,7 @@ import { Button } from "../../../components/ui/button";
 import { Label } from "../../../components/ui/label";
 import type { Product } from "../../types/product";
 import Image from "next/image";
-import { cn } from "../../../lib/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import { useCreateProduct, useUpdateProduct } from "../../../hooks/useProductMutations";
 import { FaTimes } from "react-icons/fa";
 
