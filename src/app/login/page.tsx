@@ -1,14 +1,13 @@
-// src/app/login/page.tsx
 import { login } from "./actions";
 
 type LoginPageProps = {
-  // Next 15: searchParams is a Promise
-  searchParams?: Promise<{ message?: string }>;
+  searchParams?: Promise<{ message?: string; returnTo?: string }>;
 };
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { message } = (await searchParams) ?? {};
-  const errorMessage = message;
+  const sp = (await searchParams) ?? {};
+  const errorMessage = sp.message;
+  const returnTo = sp.returnTo ?? '/admin';
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -18,6 +17,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <h2 className="text-2xl font-semibold mb-6">Sign In</h2>
 
           <form action={login} className="space-y-4">
+            <input type="hidden" name="returnTo" value={returnTo} />
+
             <div>
               <label className="block text-sm font-medium mb-1">Email</label>
               <input

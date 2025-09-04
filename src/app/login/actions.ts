@@ -1,46 +1,24 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-
-import { createClient } from '../lib/utils/supabase/server'
+import { getSupabaseServer } from '@/lib/utils/supabase/supabaseServer'
 
 export async function login(formData: FormData) {
-  const supabase = await createClient()
+  const email = String(formData.get('email') || '').trim().toLowerCase()
+  const password = String(formData.get('password') || '')
+  const returnTo = String(formData.get('returnTo') || '/admin')
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+  if (!email || !password) {
+    redirect('/login?message=' + encodeURIComponent('Email and password are required'))
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  const supabase = await getSupabaseServer()
+  const { error } = await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
-    redirect('/login?message=Invalid%20credentials')
+    redirect('/login?message=' + encodeURIComponent(error.message || 'Invalid credentials'))
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/admin')
+  // On success, Supabase set/refresh cookies for you.
+  redirect(returnTo || '/admin')
 }
-
-// export async function signup(formData: FormData) {
-//   const supabase = await createClient()
-
-//   // type-casting here for convenience
-//   // in practice, you should validate your inputs
-//   const data = {
-//     email: formData.get('email') as string,
-//     password: formData.get('password') as string,
-//   }
-
-//   const { error } = await supabase.auth.signUp(data)
-
-//   if (error) {
-//     redirect('/error')
-//   }
-
-//   revalidatePath('/', 'layout')
-//   redirect('/')
-// }

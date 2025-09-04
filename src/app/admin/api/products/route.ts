@@ -2,7 +2,7 @@
 // Handles API routes for all products.
 
 import { NextResponse } from "next/server";
-import supabase from "../../../lib/utils/supabase/supabaseClient";
+import { supabaseClient as supabase } from "@/lib/utils/supabase/supabaseClient";
 import type { Product } from "@/app/admin/types/product";
 
 // GET all products

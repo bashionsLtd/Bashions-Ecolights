@@ -1,6 +1,6 @@
 // src/app/admin/api/orders/[id]/route.ts
 import { NextResponse, type NextRequest } from "next/server";
-import supabase from "../../../../lib/utils/supabase/supabaseClient";
+import { supabaseClient as supabase } from "@/lib/utils/supabase/supabaseClient";
 import type { Order } from "@/app/admin/types/order";
 
 type OrderCtx = { params: Promise<{ id: string }> }; // <-- local helper

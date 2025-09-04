@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import supabase from "../../../../lib/utils/supabase/supabaseClient";
+import { supabaseClient as supabase } from "@/lib/utils/supabase/supabaseClient";
 
 // DELETE - remove a message by ID
 export async function DELETE(_: Request, context: { params: Promise<{ id: string }> }) {
@@ -7,6 +7,9 @@ export async function DELETE(_: Request, context: { params: Promise<{ id: string
 
   const { error } = await supabase.from("messages").delete().eq("id", id);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
   return NextResponse.json({ success: true });
 }
