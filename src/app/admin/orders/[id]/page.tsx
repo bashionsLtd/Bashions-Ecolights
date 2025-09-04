@@ -37,13 +37,13 @@ const paymentDotColor: Record<PaymentStatus, { bg: string; text: string }> = {
 
 // ---------- API ----------
 async function fetchOrder(orderId: string): Promise<OrderDb> {
-  const res = await fetch(`/admin/api/orders/${orderId}`, { cache: "no-store" });
+  const res = await fetch(`/api/orders/${orderId}`, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch order");
   return res.json();
 }
 
 async function fetchProduct(productId: string): Promise<Product> {
-  const res = await fetch(`/admin/api/products/${productId}`, {
+  const res = await fetch(`/api/products/${productId}`, {
     cache: "no-store",
   });
   if (!res.ok) throw new Error("Failed to fetch product");
@@ -54,7 +54,7 @@ async function updateOrder(
   orderId: string,
   updates: Partial<OrderDb>
 ): Promise<OrderDb> {
-  const res = await fetch(`/admin/api/orders/${orderId}`, {
+  const res = await fetch(`/api/orders/${orderId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(updates),

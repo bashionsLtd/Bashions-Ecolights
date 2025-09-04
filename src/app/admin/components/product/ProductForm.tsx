@@ -89,7 +89,7 @@ export default function ProductForm({
     files.forEach((file) => formData.append("file", file));
 
     try {
-      const res = await fetch("/admin/api/upload", { method: "POST", body: formData });
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
       const data: { url: string | string[] } = await res.json();
       const uploadedUrls = Array.isArray(data.url) ? data.url : [data.url];
       setForm((prev) => ({ ...prev, images: [...prev.images, ...uploadedUrls] }));

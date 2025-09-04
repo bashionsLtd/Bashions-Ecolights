@@ -4,7 +4,7 @@ import ProductCard from "../../shared/product";
 import { useProducts } from "../../../hooks/useProducts";
 
 export const TrendingProducts = () => {
-  const { products, isLoading, isError } = useProducts("/admin/api/products");
+  const { products, isLoading, isError } = useProducts("/api/products");
   const limitedProducts = products.slice(0, 4);
 
   if (isLoading) return <section className="px-4 py-16">Loading…</section>;

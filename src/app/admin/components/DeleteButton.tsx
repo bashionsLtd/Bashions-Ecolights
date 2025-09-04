@@ -26,7 +26,7 @@ export default function DeleteButton({ id, resource, onDeleted }: DeleteButtonPr
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch(`/admin/api/${resource}/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/${resource}/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (!data.success) {
         throw new Error(`Failed to delete ${resource.slice(0, -1)}`);

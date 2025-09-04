@@ -1,13 +1,14 @@
+// src/app/components/shared/navbar.tsx
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCart } from '@/redux/store/slices/cartSlice';
-import { RootState } from '@/redux/store/store';
+import type { RootState } from '@/redux/store/store';
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -16,7 +17,7 @@ const navItems = [
   { label: 'Contact', path: '/contact' },
 ];
 
-const Navbar = () => {
+export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -26,10 +27,16 @@ const Navbar = () => {
     state.cart.items.reduce((total, item) => total + item.quantity, 0)
   );
 
+  // Close mobile UI on route change
+  useEffect(() => {
+    setMenuOpen(false);
+    setShowSearch(false);
+  }, [pathname]);
+
   return (
     <nav className="fixed top-0 left-0 w-full bg-white bg-opacity-90 px-4 shadow-md z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link href="/">
+        <Link href="/" onClick={() => setMenuOpen(false)}>
           <Image src="/images/logo.png" alt="Logo" width={90} height={90} />
         </Link>
 
@@ -51,7 +58,7 @@ const Navbar = () => {
 
         {/* Right Icons */}
         <div className="flex items-center gap-4">
-          {/* Search toggle */}
+          {/* Search toggle (desktop) */}
           <div className="hidden sm:flex items-center relative">
             <FaSearch
               onClick={() => setShowSearch((prev) => !prev)}
@@ -66,10 +73,12 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Cart Icon with Count */}
-          <div
+          {/* Cart (desktop) */}
+          <button
+            type="button"
             onClick={() => dispatch(toggleCart())}
             className="group relative cursor-pointer hidden sm:block"
+            aria-label="Open cart"
           >
             <FaShoppingCart className="text-gray-700 hover:text-black transition" />
             {cartCount > 0 && (
@@ -80,22 +89,30 @@ const Navbar = () => {
             <span className="absolute left-1/2 -translate-x-1/2 mt-1 text-xs text-gray-600 opacity-0 group-hover:opacity-100 transition">
               Cart
             </span>
-          </div>
+          </button>
 
-          {/* Login Icon */}
-          <div className="group relative cursor-pointer hidden sm:block">
+          {/* Login (desktop) */}
+          <Link
+            href="/login"
+            className="group relative cursor-pointer hidden sm:block"
+            onClick={() => setMenuOpen(false)}
+            aria-label="Login"
+          >
             <FaUser className="text-gray-700 hover:text-black transition" />
             <span className="absolute left-1/2 -translate-x-1/2 mt-1 text-xs text-gray-600 opacity-0 group-hover:opacity-100 transition">
               Login
             </span>
-          </div>
+          </Link>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile menu button */}
           <button
+            type="button"
             onClick={() => setMenuOpen((prev) => !prev)}
             className="md:hidden text-black text-2xl ml-2"
+            aria-expanded={menuOpen}
+            aria-label="Toggle menu"
           >
-            ☰
+            <span aria-hidden>≡</span>
           </button>
         </div>
       </div>
@@ -107,6 +124,7 @@ const Navbar = () => {
             <li key={path}>
               <Link
                 href={path}
+                onClick={() => setMenuOpen(false)}
                 className={`block transition hover:text-[#c79c61] ${
                   pathname === path ? 'text-[#c79c61] font-semibold' : ''
                 }`}
@@ -115,20 +133,33 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+
           <li className="flex justify-center gap-6 mt-4 text-lg">
-            <FaUser title="Login" />
-            <div className="relative">
-              <FaShoppingCart title="Cart" onClick={() => dispatch(toggleCart())} />
+            <Link href="/login" onClick={() => setMenuOpen(false)} aria-label="Login">
+              <FaUser title="Login" />
+            </Link>
+
+            <button
+              type="button"
+              className="relative"
+              onClick={() => {
+                dispatch(toggleCart());
+                setMenuOpen(false);
+              }}
+              aria-label="Open cart"
+            >
+              <FaShoppingCart title="Cart" />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                   {cartCount}
                 </span>
               )}
-            </div>
+            </button>
           </li>
+
           <li>
             <div className="relative mt-4 w-3/4 mx-auto">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 placeholder="Find the product"
@@ -140,6 +171,4 @@ const Navbar = () => {
       )}
     </nav>
   );
-};
-
-export default Navbar;
+}
