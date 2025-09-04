@@ -6,7 +6,7 @@ import { OrderPayload } from "../admin/types/order";
 import type { OrderInput } from "../../lib/validations/orderSchema";
 
 const createOrder = async (order: OrderInput): Promise<OrderPayload> => {
-  const res = await fetch("/admin/api/orders", {
+  const res = await fetch("/api/orders", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(order),

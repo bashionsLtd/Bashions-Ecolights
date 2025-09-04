@@ -26,7 +26,7 @@ export default function OrderOverview({}) {
   useEffect(() => {
     async function loadStats() {
       try {
-        const res = await fetch("/admin/api/orders");
+        const res = await fetch("/api/orders");
         if (!res.ok) throw new Error("Failed to fetch orders");
         const orders: OrderDb[] = await res.json();
 

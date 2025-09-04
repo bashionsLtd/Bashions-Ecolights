@@ -41,7 +41,7 @@ const money = (n: number) =>
 // If your API only supports page=… (1-based), switch to `page=${pageParam + 1}&limit=${PAGE_SIZE}`.
 async function fetchOrders({ pageParam = 0 }): Promise<Order[]> {
   const offset = pageParam * PAGE_SIZE;
-  const res = await fetch(`/admin/api/orders?offset=${offset}&limit=${PAGE_SIZE}`, {
+  const res = await fetch(`/api/orders?offset=${offset}&limit=${PAGE_SIZE}`, {
     // optional: avoid caching
     cache: "no-store",
   });

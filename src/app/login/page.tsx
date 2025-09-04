@@ -1,13 +1,13 @@
-import { login } from './actions'
+import { login } from "./actions";
 
-interface LoginPageProps {
-  searchParams?: {
-    message?: string
-  }
-}
+type LoginPageProps = {
+  searchParams?: Promise<{ message?: string; returnTo?: string }>;
+};
 
-export default function LoginPage({ searchParams }: LoginPageProps) {
-  const errorMessage = searchParams?.message
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const sp = (await searchParams) ?? {};
+  const errorMessage = sp.message;
+  const returnTo = sp.returnTo ?? '/admin';
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -17,6 +17,8 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
           <h2 className="text-2xl font-semibold mb-6">Sign In</h2>
 
           <form action={login} className="space-y-4">
+            <input type="hidden" name="returnTo" value={returnTo} />
+
             <div>
               <label className="block text-sm font-medium mb-1">Email</label>
               <input
@@ -38,9 +40,10 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
               />
             </div>
 
-            {/* 👇 Error Message Displayed Here */}
             {errorMessage && (
-              <p className="text-sm text-red-600">{decodeURIComponent(errorMessage)}</p>
+              <p className="text-sm text-red-600">
+                {decodeURIComponent(errorMessage)}
+              </p>
             )}
 
             <button
@@ -58,5 +61,5 @@ export default function LoginPage({ searchParams }: LoginPageProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

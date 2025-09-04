@@ -52,7 +52,7 @@ const Message = () => {
 
     setLoading(true);
 
-    const res = await fetch("/admin/api/messages", {
+    const res = await fetch("/api/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),

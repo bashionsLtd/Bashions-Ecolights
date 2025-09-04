@@ -1,21 +1,28 @@
-// app/admin/layout.tsx
-import { createClient } from '@/app/lib/utils/supabase/server';
-import { redirect } from 'next/navigation';
-import Sidebar from './components/dashboard/Sidebar';
+// src/app/admin/layout.tsx
+import { ReactNode } from 'react'
+import { redirect } from 'next/navigation'
+import Sidebar from './components/dashboard/Sidebar'
+import { getSupabaseServer } from '@/lib/utils/supabase/supabaseServer'
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  // Create a Supabase client
-  const supabase = await createClient();
+// Optional: ensure this layout is never statically optimized
+export const dynamic = 'force-dynamic'
 
-  const { data: { user } } = await supabase.auth.getUser();
+export default async function AdminLayout({ children }: { children: ReactNode }) {
+  // Use the cookie-aware SSR client so Supabase auth works in RSC
+  const supabase = await getSupabaseServer()
+  const { data: { user } } = await supabase.auth.getUser()
 
-  // Basic protection (replace with real check if needed)
+  // Secondary guard (primary guard should already happen in src/middleware.ts)
   if (!user) {
-    redirect('/login'); // or show "Access denied"
+    // You can tack on ?returnTo=/admin here if you want;
+    // middleware already preserves returnTo for deep links.
+    redirect('/login')
   }
 
-  return <div className="w-full grid grid-cols-[1fr_7fr] bg-slate-50">
-  <Sidebar />
-  {children}
-  </div>;
+  return (
+    <div className="w-full min-h-screen grid grid-cols-[1fr_7fr] bg-slate-50">
+      <Sidebar />
+      {children}
+    </div>
+  )
 }

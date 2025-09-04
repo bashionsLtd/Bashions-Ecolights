@@ -6,7 +6,7 @@ import { useProducts } from "../hooks/useProducts";
 import { useState, useEffect } from "react";
 
 export default function ProductList() {
-    const { products, isLoading, isError, error } = useProducts("/admin/api/products");
+    const { products, isLoading, isError, error } = useProducts("/api/products");
     const [filteredProducts, setFilteredProducts] = useState<typeof products>([]);
 
     // Sync filteredProducts when products change

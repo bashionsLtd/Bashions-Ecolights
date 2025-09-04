@@ -19,7 +19,7 @@ export default function MessagesPage() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const res = await fetch("/admin/api/messages");
+        const res = await fetch("/api/messages");
         if (!res.ok) throw new Error("Failed to fetch messages");
         const data = await res.json();
         setMessages(data);

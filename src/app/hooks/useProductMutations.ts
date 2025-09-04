@@ -8,7 +8,7 @@ export function useCreateProduct() {
 
   return useMutation({
     mutationFn: async (product: Product) => {
-      const res = await fetch("/admin/api/products", {
+      const res = await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),
@@ -27,7 +27,7 @@ export function useUpdateProduct() {
 
   return useMutation({
     mutationFn: async (product: Product) => {
-      const res = await fetch(`/admin/api/products/${product.id}`, {
+      const res = await fetch(`/api/products/${product.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),

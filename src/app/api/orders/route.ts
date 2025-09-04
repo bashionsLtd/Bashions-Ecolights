@@ -1,6 +1,6 @@
 // src/app/admin/api/orders/route.ts
 import { NextResponse } from "next/server";
-import supabase from "../../../lib/utils/supabase/supabaseClient";
+import { supabaseClient as supabase } from "@/lib/utils/supabase/supabaseClient";
 import type { OrderDb, OrderItem } from "@/app/admin/types/order";
 
 function generateOrderId() {

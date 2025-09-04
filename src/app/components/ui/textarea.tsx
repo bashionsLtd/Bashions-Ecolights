@@ -1,7 +1,10 @@
 import React from "react";
 import clsx from "clsx";
 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+/* eslint-enable @typescript-eslint/no-empty-object-type */
+
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, ...props }, ref) => {

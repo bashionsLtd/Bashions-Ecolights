@@ -8,7 +8,7 @@ import { Button } from "../../../components/ui/button";
 import { Label } from "../../../components/ui/label";
 import type { Product } from "../../types/product";
 import Image from "next/image";
-import { cn } from "../../../lib/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import { useCreateProduct, useUpdateProduct } from "../../../hooks/useProductMutations";
 import { FaTimes } from "react-icons/fa";
 
@@ -89,7 +89,7 @@ export default function ProductForm({
     files.forEach((file) => formData.append("file", file));
 
     try {
-      const res = await fetch("/admin/api/upload", { method: "POST", body: formData });
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
       const data: { url: string | string[] } = await res.json();
       const uploadedUrls = Array.isArray(data.url) ? data.url : [data.url];
       setForm((prev) => ({ ...prev, images: [...prev.images, ...uploadedUrls] }));
