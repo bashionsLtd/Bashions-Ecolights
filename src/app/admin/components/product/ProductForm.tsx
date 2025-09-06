@@ -168,6 +168,26 @@ export default function ProductForm({
         {errors.category && <p className="text-sm text-red-500">{errors.category}</p>}
       </div>
 
+      {/* Status (only visible in edit mode) */}
+      {(mode === "edit" || mode=== 'view')  && (
+        <div className="flex flex-col gap-1">
+          <Label htmlFor="status">Status</Label>
+          <select
+            id="status"
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+            disabled={mode === "view"}
+            className="border rounded-md px-3 py-2 text-sm"
+          >
+            <option value="New">New</option>
+            <option value="Old">Old</option>
+            <option value="Expired">Expired</option>
+          </select>
+          {errors.status && <p className="text-sm text-red-500">{errors.status}</p>}
+        </div>
+      )}
+
       {/* Price */}
       <div className="flex flex-col gap-1">
         <Label htmlFor="price">Price</Label>

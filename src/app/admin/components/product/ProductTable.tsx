@@ -15,6 +15,7 @@ interface Props {
 const statusClasses = {
   New: "bg-green-100 text-green-700",
   Old: "bg-gray-100 text-gray-700",
+  Expired: "bg-red-100 text-red-700",
 };
 
 export default function ProductTable({ products: initialProducts, onAdd }: Props) {

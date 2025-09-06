@@ -1,6 +1,6 @@
 // src/app/admin/types/product.ts
 
-export type ProductStatus = "New" | "Old";
+export type ProductStatus = "New" | "Old" | "Expired";
 
 export interface Product {
   id: string;

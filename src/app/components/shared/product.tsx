@@ -124,7 +124,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
 
-        <h3 className="text-sm mt-4">{name}</h3>
+        <h3 className="text- mt-4">{name}</h3>
 
         <div className="mt-1 text-sm">
           {salePrice ? (
