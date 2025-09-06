@@ -65,14 +65,32 @@ const OrderSummaryPage = () => {
     };
 
     createOrder(payload, {
-      onSuccess: () => {
-        dispatch(clearCart());
-        toast.success('✅ Order placed successfully!');
-      },
-      onError: (err) => {
-        toast.error(`❌ ${(err as Error).message}`);
-      },
-    });
+  onSuccess: async () => {
+    dispatch(clearCart());
+    toast.success("✅ Order placed successfully!");
+
+    // Send confirmation email
+    try {
+      await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          name: form.name,
+          surname: form.surname,
+          items,
+          total,
+        }),
+      });
+    } catch (e) {
+      console.error("Email sending failed", e);
+    }
+  },
+  onError: (err) => {
+    toast.error(`❌ ${(err as Error).message}`);
+  },
+});
+
   };
 
   return (
@@ -117,7 +135,7 @@ const OrderSummaryPage = () => {
                     <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                   </div>
                   <p className="font-semibold text-right">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    Rwf{(item.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
               ))
@@ -125,7 +143,7 @@ const OrderSummaryPage = () => {
           </div>
           <div className="mt-4 border-t pt-4 flex justify-between items-center text-xl font-semibold">
             <span>Total:</span>
-            <span className="text-black">${total.toFixed(2)}</span>
+            <span className="text-black">Rwf{total.toFixed(2)}</span>
           </div>
 
           <button

@@ -65,8 +65,8 @@ const FaqSection = () => {
         {/* Section header */}
         <div className="text-center mb-20">
         <h2 className="text-4xl md:text-5xl font-bold relative inline-block">
-          <span className="before:absolute before:top-1/2 before:-left-10 before:w-8 before:h-[2px] before:bg-black after:absolute after:top-1/2 after:-right-10 after:w-8 after:h-[2px] after:bg-black">
-            Frequently Asked Questions
+          <span className="before:absolute before:top-1/2 before:-left-10 before:w-8 before:h-[1px] before:bg-black after:absolute after:top-1/2 after:-right-10 after:w-8 after:h-[1px] after:bg-black">
+            FAQ
           </span>
         </h2>
         <p className="text-gray-500 italic mt-2">Below are some of are common questions about orders</p>

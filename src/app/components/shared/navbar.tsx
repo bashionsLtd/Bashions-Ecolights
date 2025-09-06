@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCart } from '@/redux/store/slices/cartSlice';
 import type { RootState } from '@/redux/store/store';
@@ -91,19 +91,6 @@ export default function Navbar() {
             </span>
           </button>
 
-          {/* Login (desktop) */}
-          <Link
-            href="/login"
-            className="group relative cursor-pointer hidden sm:block"
-            onClick={() => setMenuOpen(false)}
-            aria-label="Login"
-          >
-            <FaUser className="text-gray-700 hover:text-black transition" />
-            <span className="absolute left-1/2 -translate-x-1/2 mt-1 text-xs text-gray-600 opacity-0 group-hover:opacity-100 transition">
-              Login
-            </span>
-          </Link>
-
           {/* Mobile menu button */}
           <button
             type="button"
@@ -135,10 +122,6 @@ export default function Navbar() {
           ))}
 
           <li className="flex justify-center gap-6 mt-4 text-lg">
-            <Link href="/login" onClick={() => setMenuOpen(false)} aria-label="Login">
-              <FaUser title="Login" />
-            </Link>
-
             <button
               type="button"
               className="relative"

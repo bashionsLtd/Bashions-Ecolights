@@ -62,7 +62,7 @@ const AboutOurServices: React.FC = () => {
       <div className="text-center mb-20 px-4">
         <h2 className="text-4xl md:text-5xl font-bold relative inline-block">
           <span className="text-white before:absolute before:top-1/2 before:-left-10 before:w-8 before:h-[1px] before:bg-white after:absolute after:top-1/2 after:-right-10 after:w-8 after:h-[1px] after:bg-white">
-            How Does It Work?
+            PROCEDURES
           </span>
         </h2>
         <p className="text-gray-400 italic mt-2">

@@ -10,7 +10,7 @@ interface ApiProduct {
   sale_price: number | undefined;
   description: string;
   images: string[];
-  status: string; // "New" | ...
+  status: string; // "New" | "Old" | "Expired"
 }
 
 export interface ProductCardProps {
@@ -31,34 +31,40 @@ async function fetchProducts(apiUrl: string): Promise<ApiProduct[]> {
 }
 
 function transformProducts(data: ApiProduct[]): ProductCardProps[] {
-  return data.map((p) => {
-    let badge: { text: string; color: string } | undefined;
+  return (
+    data
+      // ✅ Ignore expired
+      .filter((p) => p.status !== "Expired")
+      .map((p) => {
+        let badge: { text: string; color: string } | undefined;
 
-    if (p.sale_price) {
-      const discount = Math.round(((p.price - p.sale_price) / p.price) * 100);
-      badge = { text: `-${discount}%`, color: "bg-orange-500" };
-    } else if (p.status === "New") {
-      badge = { text: "New", color: "bg-green-600" };
-    }
+        if (p.sale_price) {
+          const discount = Math.round(
+            ((p.price - p.sale_price) / p.price) * 100
+          );
+          badge = { text: `-${discount}%`, color: "bg-orange-500" };
+        } else if (p.status === "New") {
+          badge = { text: "New", color: "bg-green-600" };
+        }
 
-    return {
-      id: p.id,
-      category: p.category,
-      name: p.name,
-      price: p.price,
-      salePrice: p.sale_price ?? undefined,
-      description: p.description,
-      images: p.images,
-      badge, // ✅ always {..} or undefined
-    };
-  });
+        return {
+          id: p.id,
+          category: p.category,
+          name: p.name,
+          price: p.price,
+          salePrice: p.sale_price ?? undefined,
+          description: p.description,
+          images: p.images,
+          badge,
+        };
+      })
+  );
 }
 
 export function useProducts(apiUrl: string) {
   const query = useQuery({
-    queryKey: ["products", apiUrl],     // 🔑 shared cache per URL
+    queryKey: ["products", apiUrl],
     queryFn: () => fetchProducts(apiUrl).then(transformProducts),
-    // Optional: keep data on screen while refetching
     placeholderData: (prev) => prev,
   });
 
